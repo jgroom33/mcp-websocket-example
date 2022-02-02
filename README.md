@@ -2,7 +2,9 @@
 
 Subscribe to a Websocket on a Ciena MCP server.
 
-Parse the response and send it somewhere.
+Use this application to parse the response and send it somewhere.
+
+NOTE: to make MCP send an alarm, you can acknowldeg/unacknowledge it.
 
 Run this:
 
