@@ -4,11 +4,21 @@ Subscribe to a Websocket on a Ciena MCP server.
 
 Use this application to parse the response and send it somewhere.
 
+## Setup
+
+```bash
+pipenv shell
+pipenv install
+```
+
+## Usage
+
 NOTE: to make MCP send an alarm, you can acknowldeg/unacknowledge it.
 
 Run this:
 
 ```bash
+export MCP_SERVER=10.75.1.32
 python3 websocket_listener.py
 ```
 

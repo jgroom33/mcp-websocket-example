@@ -2,6 +2,7 @@ import _thread
 import json
 import ssl
 import time
+import os
 
 import websocket
 import requests
@@ -14,15 +15,14 @@ import json
 # *   - Open your lab info dialog page
 # *   - Click the "External API Access" button
 # *   - Copy the "External API" link (it should end with "&path=")
-# *   - Paste the value in quotes to set the "EXTERNAL_API_LINK" constant in this file
+# *   - Paste the value in quotes to set the "HOST" constant in this file
 # *   - This link will only work for the duration of your lab, you must repeat this process if you create a new lab
 # *
 # * For MCP Standalone Users:
 # *   - Copy the direct FQDN / IP address of MCP (for example: "https://192.168.1.101")
-# *   - Paste the value in quotes to set the "EXTERNAL_API_LINK" constant in this file
+# *   - Paste the value in quotes to set the "HOST" constant in this file
 # *
 # ************** DEVELOPER NOTE **************************
-EXTERNAL_API_LINK = "https://10.78.105.27"
 
 
 """
@@ -30,7 +30,7 @@ Connection info for MCP
 Username and password come from the user's personal username and password.
 Admin users will have more functionality than non-admin users
 """
-HOST = EXTERNAL_API_LINK
+HOST = os.environ.get("MCP_SERVER")
 USERNAME = "admin"
 PASSWORD = "adminpw"
 
@@ -40,7 +40,7 @@ def authorize_with_MCP(host, username, password):
     path = "/tron/api/v1/tokens"
 
     # build the URL String
-    url = host + path
+    url = f"https://{host}{path}"
 
     auth_payload = f"username={username}&password={password}&tenant=master"
     auth_headers = {
@@ -148,8 +148,7 @@ def register_to_topic(ws, topic):
 
 if __name__ == "__main__":
     token = authorize_with_MCP(HOST, USERNAME, PASSWORD)
-    host = HOST.replace("https://", "wss://")
-    websocket_endpoint = f"{host}/kafkacomet/socket/websocket"
+    websocket_endpoint = f"wss://{HOST}/kafkacomet/socket/websocket"
 
     ws = websocket.WebSocketApp(
         websocket_endpoint,
